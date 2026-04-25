@@ -21,20 +21,16 @@ export const Home: FC<HomeProps> = ({ registry }) => (
         )}
       </section>
       {registry ? (
-        <div class="vendor-list">
-          {registry.vendors.map((v) => (
-            <section class="vendor">
-              <h2 class="vendor-name">{v.name}</h2>
-              <div class="product-grid">
-                {v.products.map((p) => (
-                  <a class="product-card" href={`/${v.slug}/${p.slug}`}>
-                    <span class="product-name">{p.name}</span>
-                  </a>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
+        <section class="vendor-index">
+          <h2>Vendors</h2>
+          <ul class="vendor-list">
+            {registry.vendors.map((v) => (
+              <li>
+                <a href={`/${v.slug}`}>{v.name}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
       ) : (
         <p>Registry unavailable.</p>
       )}

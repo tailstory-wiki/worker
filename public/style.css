@@ -61,6 +61,7 @@ footer {
 }
 
 /* Site chrome */
+/* Site chrome */
 .site-header {
   background: var(--color-bg);
   padding: 1rem 2rem;
@@ -77,6 +78,7 @@ footer {
   padding: 2rem;
   text-align: center;
   font-size: 0.875rem;
+  color: var(--color-text-muted);
 }
 
 /* Home page */
@@ -87,20 +89,19 @@ footer {
 }
 
 .hero {
-  padding: 3rem 0 2rem;
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: 3rem;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
 }
 
 .hero h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
   margin: 0 0 0.5rem;
   line-height: 1.2;
 }
 
 .hero-intro {
-  font-size: 1.125rem;
+  font-size: 1rem;
   color: var(--color-text-muted);
   max-width: 720px;
 }
@@ -109,46 +110,41 @@ footer {
   margin: 0;
 }
 
-/* Vendor sections */
+/* Vendor index */
+.vendor-index h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
 .vendor-list {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  column-count: 4;
+  column-gap: 2rem;
 }
 
-.vendor-name {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 0 1.25rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-border);
+.vendor-list li {
+  break-inside: avoid;
+  padding: 0.25rem 0;
+  font-size: 0.9375rem;
 }
 
-/* Product cards */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
+@media (max-width: 900px) {
+  .vendor-list {
+    column-count: 3;
+  }
 }
 
-.product-card {
-  display: block;
-  padding: 1.5rem;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  color: var(--color-text);
-  text-decoration: none;
-  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+@media (max-width: 640px) {
+  .vendor-list {
+    column-count: 2;
+  }
 }
 
-.product-card:hover {
-  border-color: var(--color-link);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  text-decoration: none;
-}
-
-.product-name {
-  font-size: 1.0625rem;
-  font-weight: 600;
+@media (max-width: 400px) {
+  .vendor-list {
+    column-count: 1;
+  }
 }
