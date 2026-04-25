@@ -4,14 +4,12 @@ interface AppLayoutProps {
   title: string;
   nav?: Child;
   mainClass?: string;
-  footerMode?: "site" | "plain" | "none";
 }
 
 export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
   title,
   nav,
   mainClass,
-  footerMode = "site",
   children,
 }) => (
   <html lang="en">
@@ -27,18 +25,11 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
         {nav && <nav>{nav}</nav>}
       </header>
       <main class={mainClass}>{children}</main>
-      {footerMode === "site" && (
-        <footer class="site-footer">
-          <p>
-            <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
-          </p>
-        </footer>
-      )}
-      {footerMode === "plain" && (
-        <footer>
-          <p>Tailstory wiki</p>
-        </footer>
-      )}
+      <footer class="site-footer">
+        <p>
+          <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
+        </p>
+      </footer>
     </body>
   </html>
 );

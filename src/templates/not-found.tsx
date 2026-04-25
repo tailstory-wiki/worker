@@ -6,7 +6,7 @@ interface NotFoundProps {
 }
 
 export const NotFound: FC<NotFoundProps> = ({ message }) => (
-  <AppLayout title="Not found — Tailstory wiki" footerMode="none">
+  <AppLayout title="Not found — Tailstory wiki">
     <h1>404</h1>
     <p>{message}</p>
   </AppLayout>
