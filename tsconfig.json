@@ -15,7 +15,10 @@
 
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true
+    "noEmit": true,
+
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx"
   },
   "include": ["src/**/*.ts", "worker-configuration.d.ts"],
   "exclude": ["node_modules"]

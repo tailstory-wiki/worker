@@ -1,0 +1,68 @@
+import type { Env, ParsedPath, Registry } from "./types";
+import { Home } from "./templates/home";
+import { Page } from "./templates/page";
+import { NotFound } from "./templates/not-found";
+
+function parsePath(pathname: string): ParsedPath | null {
+  const segments = pathname.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean);
+  if (segments.length < 2) return null;
+  const [vendor, product, ...rest] = segments;
+  const page = rest.length === 0 ? "index" : rest.join("/");
+  return { vendor, product, page };
+}
+
+async function fetchRegistry(bucket: R2Bucket): Promise<Registry | null> {
+  const obj = await bucket.get("registry.json");
+  if (!obj) return null;
+  try {
+    return await obj.json<Registry>();
+  } catch {
+    return null;
+  }
+}
+
+async function fetchPartial(bucket: R2Bucket, parsed: ParsedPath): Promise<string | null> {
+  const key = `${parsed.vendor}/${parsed.product}/${parsed.page}/index.html`;
+  const obj = await bucket.get(key);
+  if (!obj) return null;
+  return await obj.text();
+}
+
+function htmlResponse(node: JSX.Element, status = 200): Response {
+  return new Response(`<!DOCTYPE html>${node.toString()}`, {
+    status,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "public, max-age=60",
+    },
+  });
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/" || url.pathname === "") {
+      const registry = await fetchRegistry(env.DOCS);
+      return htmlResponse(<Home registry={registry} />);
+    }
+
+    const parsed = parsePath(url.pathname);
+    if (!parsed) {
+      return htmlResponse(
+        <NotFound message="Path must be /{vendor}/{product} or /{vendor}/{product}/{page}." />,
+        404,
+      );
+    }
+
+    const partial = await fetchPartial(env.DOCS, parsed);
+    if (partial === null) {
+      return htmlResponse(
+        <NotFound message={`No doc found at ${parsed.vendor}/${parsed.product}/${parsed.page}.`} />,
+        404,
+      );
+    }
+
+    return htmlResponse(<Page parsed={parsed} partial={partial} />);
+  },
+} satisfies ExportedHandler<Env>;
