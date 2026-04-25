@@ -9,16 +9,16 @@ interface PageProps {
 }
 
 export const Page: FC<PageProps> = ({ parsed, partial }) => (
-  <Shell title={`${parsed.product} — tailstory wiki`}>
+  <Shell title={`${parsed.product} — Tailstory wiki`}>
     <header>
-      <a href="/">tailstory wiki</a>
+      <a href="/">Tailstory wiki</a>
       <nav>
         <span>{parsed.vendor}</span> / <span>{parsed.product}</span>
       </nav>
     </header>
     <main>{raw(partial)}</main>
     <footer>
-      <p>tailstory wiki</p>
+      <p>Tailstory wiki</p>
     </footer>
   </Shell>
 );

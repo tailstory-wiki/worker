@@ -6,9 +6,9 @@ interface NotFoundProps {
 }
 
 export const NotFound: FC<NotFoundProps> = ({ message }) => (
-  <Shell title="Not found — tailstory wiki">
+  <Shell title="Not found — Tailstory wiki">
     <header>
-      <a href="/">tailstory wiki</a>
+      <a href="/">Tailstory wiki</a>
     </header>
     <main>
       <h1>404</h1>

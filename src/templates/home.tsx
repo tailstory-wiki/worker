@@ -9,13 +9,13 @@ interface HomeProps {
 }
 
 export const Home: FC<HomeProps> = ({ registry }) => (
-  <Shell title="tailstory wiki">
+  <Shell title="Tailstory wiki">
     <header class="site-header">
-      <a href="/" class="site-title">tailstory wiki</a>
+      <a href="/" class="site-title">Tailstory wiki</a>
     </header>
     <main class="home">
       <section class="hero">
-        <h1>tailstory wiki</h1>
+        <h1 class="sr-only">Documentation index</h1>
         {registry?.intro && (
           <div class="hero-intro">{raw(renderMarkdown(registry.intro))}</div>
         )}
@@ -38,7 +38,9 @@ export const Home: FC<HomeProps> = ({ registry }) => (
       )}
     </main>
     <footer class="site-footer">
-      <p>tailstory wiki</p>
+      <p>
+        <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
+      </p>
     </footer>
   </Shell>
 );
