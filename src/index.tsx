@@ -9,10 +9,12 @@ function parsePath(pathname: string): ParsedPath | null {
   if (segments.length === 0) return null;
 
   if (segments.length === 1) {
-    return { kind: "vendor", vendor: segments[0] };
+    return { kind: "vendor", vendor: segments[0]! };
   }
 
-  const [vendor, product, ...rest] = segments;
+  const vendor = segments[0]!;
+  const product = segments[1]!;
+  const rest = segments.slice(2);
   const page = rest.length === 0 ? "index" : rest.join("/");
   return { kind: "page", vendor, product, page };
 }
@@ -37,7 +39,7 @@ async function fetchPartial(
   return await obj.text();
 }
 
-function htmlResponse(node: JSX.Element, status = 200): Response {
+function htmlResponse(node: { toString(): string }, status = 200): Response {
   return new Response(`<!DOCTYPE html>${node.toString()}`, {
     status,
     headers: {

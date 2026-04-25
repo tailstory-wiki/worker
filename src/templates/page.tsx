@@ -1,24 +1,19 @@
 import type { FC } from "hono/jsx";
 import { raw } from "hono/html";
 import type { ParsedPath } from "../types";
-import { Shell } from "./shell";
+import { AppLayout } from "./app-layout";
 
 interface PageProps {
-  parsed: ParsedPath;
+  parsed: Extract<ParsedPath, { kind: "page" }>;
   partial: string;
 }
 
 export const Page: FC<PageProps> = ({ parsed, partial }) => (
-  <Shell title={`${parsed.product} — Tailstory wiki`}>
-    <header class="site-header">
-      <a href="/" class="site-title">Tailstory wiki</a>
-      <nav>
-        <span>{parsed.vendor}</span> / <span>{parsed.product}</span>
-      </nav>
-    </header>
-    <main>{raw(partial)}</main>
-    <footer>
-      <p>Tailstory wiki</p>
-    </footer>
-  </Shell>
+  <AppLayout
+    title={`${parsed.product} — Tailstory wiki`}
+    nav={<><span>{parsed.vendor}</span> / <span>{parsed.product}</span></>}
+    footerMode="plain"
+  >
+    {raw(partial)}
+  </AppLayout>
 );

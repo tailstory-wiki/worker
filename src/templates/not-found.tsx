@@ -1,18 +1,13 @@
 import type { FC } from "hono/jsx";
-import { Shell } from "./shell";
+import { AppLayout } from "./app-layout";
 
 interface NotFoundProps {
   message: string;
 }
 
 export const NotFound: FC<NotFoundProps> = ({ message }) => (
-  <Shell title="Not found — Tailstory wiki">
-    <header class="site-header">
-      <a href="/" class="site-title">Tailstory wiki</a>
-    </header>
-    <main>
-      <h1>404</h1>
-      <p>{message}</p>
-    </main>
-  </Shell>
+  <AppLayout title="Not found — Tailstory wiki" footerMode="none">
+    <h1>404</h1>
+    <p>{message}</p>
+  </AppLayout>
 );
