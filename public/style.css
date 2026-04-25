@@ -102,34 +102,91 @@ header nav {
 
 .theme-switcher {
   margin-left: auto;
-  display: inline-flex;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 2px;
-  background: var(--color-bg-subtle);
+  position: relative;
 }
 
-.theme-switcher button {
+.theme-switcher > summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg-subtle);
+  color: var(--color-text);
+}
+
+.theme-switcher > summary::-webkit-details-marker {
+  display: none;
+}
+
+.theme-switcher > summary::marker {
+  content: "";
+}
+
+.theme-switcher > summary:hover {
+  background: var(--color-bg);
+}
+
+.theme-switcher > summary svg {
+  display: none;
+}
+
+:root[data-theme-pref="system"] .theme-switcher > summary svg[data-icon="system"],
+:root[data-theme-pref="light"] .theme-switcher > summary svg[data-icon="light"],
+:root[data-theme-pref="dark"] .theme-switcher > summary svg[data-icon="dark"] {
+  display: inline-block;
+}
+
+:root:not([data-theme-pref]) .theme-switcher > summary svg[data-icon="system"] {
+  display: inline-block;
+}
+
+.theme-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 40px;
+}
+
+.theme-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.theme-menu button {
   appearance: none;
   background: transparent;
   border: 0;
   color: var(--color-text-muted);
-  font: inherit;
-  font-size: 0.8125rem;
-  padding: 0.25rem 0.625rem;
-  border-radius: 4px;
   cursor: pointer;
-  line-height: 1;
+  padding: 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
-.theme-switcher button:hover {
+.theme-menu button:hover {
+  background: var(--color-bg-subtle);
   color: var(--color-text);
 }
 
-.theme-switcher button[aria-pressed="true"] {
-  background: var(--color-bg);
-  color: var(--color-text);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+.theme-menu button[aria-checked="true"] {
+  background: var(--color-bg-subtle);
+  color: var(--color-link);
 }
 
 footer {

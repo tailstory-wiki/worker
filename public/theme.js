@@ -1,6 +1,13 @@
 (() => {
   const STORAGE_KEY = "theme";
   const root = document.documentElement;
+  const switcher = document.querySelector(".theme-switcher");
+  if (!switcher) return;
+
+  const current = () => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored === "light" || stored === "dark" ? stored : "system";
+  };
 
   const apply = (choice) => {
     if (choice === "light" || choice === "dark") {
@@ -8,24 +15,18 @@
     } else {
       root.removeAttribute("data-theme");
     }
-  };
-
-  const current = () => localStorage.getItem(STORAGE_KEY) ?? "system";
-
-  const sync = (group) => {
-    const active = current();
-    for (const btn of group.querySelectorAll("button[data-theme-choice]")) {
+    root.setAttribute("data-theme-pref", choice);
+    for (const btn of switcher.querySelectorAll("button[data-theme-choice]")) {
       btn.setAttribute(
-        "aria-pressed",
-        btn.dataset.themeChoice === active ? "true" : "false",
+        "aria-checked",
+        btn.dataset.themeChoice === choice ? "true" : "false",
       );
     }
   };
 
-  const group = document.querySelector(".theme-switcher");
-  if (!group) return;
+  apply(current());
 
-  group.addEventListener("click", (event) => {
+  switcher.addEventListener("click", (event) => {
     const btn = event.target.closest("button[data-theme-choice]");
     if (!btn) return;
     const choice = btn.dataset.themeChoice;
@@ -35,8 +36,18 @@
       localStorage.setItem(STORAGE_KEY, choice);
     }
     apply(choice);
-    sync(group);
+    switcher.open = false;
   });
 
-  sync(group);
+  document.addEventListener("click", (event) => {
+    if (switcher.open && !switcher.contains(event.target)) {
+      switcher.open = false;
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && switcher.open) {
+      switcher.open = false;
+    }
+  });
 })();
