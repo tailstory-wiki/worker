@@ -36,7 +36,10 @@ async function fetchPartial(
   bucket: R2Bucket,
   parsed: Extract<ParsedPath, { kind: "page" }>,
 ): Promise<string | null> {
-  const key = `${parsed.vendor}/${parsed.product}/${parsed.page}/index.html`;
+  const key =
+    parsed.page === "index"
+      ? `${parsed.vendor}/${parsed.product}/index.html`
+      : `${parsed.vendor}/${parsed.product}/${parsed.page}/index.html`;
   const obj = await bucket.get(key);
   if (!obj) return null;
   return await obj.text();
