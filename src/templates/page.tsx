@@ -7,14 +7,23 @@ interface PageProps {
   parsed: Extract<ParsedPath, { kind: "page" }>;
   partial: string;
   version?: string;
+  vendorName?: string;
+  productName?: string;
 }
 
-export const Page: FC<PageProps> = ({ parsed, partial, version }) => (
+export const Page: FC<PageProps> = ({
+  parsed,
+  partial,
+  version,
+  vendorName,
+  productName,
+}) => (
   <AppLayout
-    title={`${parsed.product} — Tailstory wiki`}
+    title={`${productName ?? parsed.product} — Tailstory wiki`}
     nav={
       <>
-        <span>{parsed.vendor}</span> / <span>{parsed.product}</span>
+        <span>{vendorName ?? parsed.vendor}</span> /{" "}
+        <span>{productName ?? parsed.product}</span>
       </>
     }
     version={version}
