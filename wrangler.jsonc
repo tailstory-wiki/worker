@@ -25,5 +25,11 @@
     "mode": "smart"
   },
   "upload_source_maps": true,
+  "routes": [
+    {
+      "pattern": "wiki.tailstory.dev",
+      "custom_domain": true
+    }
+  ],
   "preview_urls": true
 }
