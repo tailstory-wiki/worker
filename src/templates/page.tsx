@@ -6,9 +6,10 @@ import { AppLayout } from "./app-layout";
 interface PageProps {
   parsed: Extract<ParsedPath, { kind: "page" }>;
   partial: string;
+  version?: string;
 }
 
-export const Page: FC<PageProps> = ({ parsed, partial }) => (
+export const Page: FC<PageProps> = ({ parsed, partial, version }) => (
   <AppLayout
     title={`${parsed.product} — Tailstory wiki`}
     nav={
@@ -16,6 +17,7 @@ export const Page: FC<PageProps> = ({ parsed, partial }) => (
         <span>{parsed.vendor}</span> / <span>{parsed.product}</span>
       </>
     }
+    version={version}
   >
     {raw(partial)}
   </AppLayout>

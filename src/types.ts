@@ -1,5 +1,10 @@
 export interface Env {
   DOCS: R2Bucket;
+  CF_VERSION_METADATA: {
+    id: string;
+    tag: string;
+    timestamp: string;
+  };
 }
 
 export interface Product {

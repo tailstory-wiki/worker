@@ -4,6 +4,7 @@ import type { Child, FC, PropsWithChildren } from "hono/jsx";
 interface AppLayoutProps {
   title: string;
   nav?: Child;
+  version?: string;
 }
 
 const themeBootScript = `(()=>{try{var t=localStorage.getItem("theme");var p=(t==="light"||t==="dark")?t:"system";var r=document.documentElement;r.setAttribute("data-theme-pref",p);if(p!=="system")r.setAttribute("data-theme",p);}catch(e){document.documentElement.setAttribute("data-theme-pref","system");}})();`;
@@ -113,6 +114,7 @@ const ThemeSwitcher: FC = () => (
 export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
   title,
   nav,
+  version,
   children,
 }) => (
   <html lang="en">
@@ -134,6 +136,13 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
         <p>
           <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
         </p>
+        {version && (
+          <p class="worker-version">
+            <small>
+              Worker <code title={version}>{version.slice(0, 8)}</code>
+            </small>
+          </p>
+        )}
       </footer>
       <script src="/theme.js" defer />
     </body>
