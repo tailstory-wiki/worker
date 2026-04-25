@@ -1,11 +1,14 @@
-import type { Env, ParsedPath, Registry } from "./types";
 import { Home } from "./templates/home";
-import { Page } from "./templates/page";
 import { NotFound } from "./templates/not-found";
+import { Page } from "./templates/page";
 import { VendorPage } from "./templates/vendor";
+import type { Env, ParsedPath, Registry } from "./types";
 
 function parsePath(pathname: string): ParsedPath | null {
-  const segments = pathname.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean);
+  const segments = pathname
+    .replace(/^\/+|\/+$/g, "")
+    .split("/")
+    .filter(Boolean);
   if (segments.length === 0) return null;
 
   if (segments.length === 1) {
@@ -78,7 +81,9 @@ export default {
     const partial = await fetchPartial(env.DOCS, parsed);
     if (partial === null) {
       return htmlResponse(
-        <NotFound message={`No doc found at ${parsed.vendor}/${parsed.product}/${parsed.page}.`} />,
+        <NotFound
+          message={`No doc found at ${parsed.vendor}/${parsed.product}/${parsed.page}.`}
+        />,
         404,
       );
     }

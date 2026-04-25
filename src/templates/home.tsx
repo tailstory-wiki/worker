@@ -1,8 +1,8 @@
-import type { FC } from "hono/jsx";
 import { raw } from "hono/html";
+import type { FC } from "hono/jsx";
+import { renderMarkdown } from "../markdown";
 import type { Registry } from "../types";
 import { AppLayout } from "./app-layout";
-import { renderMarkdown } from "../markdown";
 
 interface HomeProps {
   registry: Registry | null;
