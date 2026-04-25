@@ -7,12 +7,14 @@
     "types": "wrangler types"
   },
   "dependencies": {
-    "hono": "^4.12.15"
+    "hono": "^4.12.15",
+    "markdown-it": "^14.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.12",
     "typescript": "^6.0.3",
-    "wrangler": "^4.84.1"
+    "wrangler": "^4.84.1",
+    "@types/markdown-it": "^14.0.0"
   },
   "engines": {
     "node": ">=24.12.0"

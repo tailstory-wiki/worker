@@ -14,11 +14,12 @@ export interface Vendor {
 }
 
 export interface Registry {
+  intro?: string;
   vendors: Vendor[];
 }
-
 export interface ParsedPath {
   vendor: string;
   product: string;
   page: string;
 }
+
