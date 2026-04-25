@@ -135,7 +135,10 @@ header nav {
   display: none;
 }
 
-:root[data-theme-pref="system"] .theme-switcher > summary svg[data-icon="system"],
+:root[data-theme-pref="system"]
+  .theme-switcher
+  > summary
+  svg[data-icon="system"],
 :root[data-theme-pref="light"] .theme-switcher > summary svg[data-icon="light"],
 :root[data-theme-pref="dark"] .theme-switcher > summary svg[data-icon="dark"] {
   display: inline-block;
