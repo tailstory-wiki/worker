@@ -25,7 +25,9 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
     </head>
     <body>
       <header class="site-header">
-        <a href="/" class="site-title">Tailstory wiki</a>
+        <a href="/" class="site-title">
+          Tailstory wiki
+        </a>
         {nav && <nav>{nav}</nav>}
       </header>
       <main class={mainClass}>{children}</main>
