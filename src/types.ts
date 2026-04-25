@@ -17,9 +17,7 @@ export interface Registry {
   intro?: string;
   vendors: Vendor[];
 }
-export interface ParsedPath {
-  vendor: string;
-  product: string;
-  page: string;
-}
 
+export type ParsedPath =
+  | { kind: "vendor"; vendor: string }
+  | { kind: "page"; vendor: string; product: string; page: string };
