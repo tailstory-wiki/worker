@@ -24,11 +24,13 @@ export const Home: FC<HomeProps> = ({ registry }) => (
         <section class="vendor-index">
           <h2>Vendors</h2>
           <ul class="vendor-list">
-            {registry.vendors.map((v) => (
-              <li>
-                <a href={`/${v.slug}`}>{v.name}</a>
-              </li>
-            ))}
+            {[...registry.vendors]
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((v) => (
+                <li>
+                  <a href={`/${v.slug}`}>{v.name}</a>
+                </li>
+              ))}
           </ul>
         </section>
       ) : (
