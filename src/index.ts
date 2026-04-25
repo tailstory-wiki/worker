@@ -2,32 +2,97 @@ export interface Env {
   DOCS: R2Bucket;
 }
 
+interface Product {
+  slug: string;
+  name: string;
+}
+
+interface Vendor {
+  slug: string;
+  name: string;
+  products: Product[];
+}
+
+interface Registry {
+  vendors: Vendor[];
+}
+
 interface ParsedPath {
   vendor: string;
   product: string;
-  page: string; // "index" if not specified
+  page: string;
 }
 
 function parsePath(pathname: string): ParsedPath | null {
-  // Strip leading/trailing slashes, split into segments
   const segments = pathname.replace(/^\/+|\/+$/g, "").split("/").filter(Boolean);
-
   if (segments.length < 2) return null;
-
   const [vendor, product, ...rest] = segments;
   const page = rest.length === 0 ? "index" : rest.join("/");
-
   return { vendor, product, page };
 }
 
-async function fetchPartial(
-  bucket: R2Bucket,
-  parsed: ParsedPath,
-): Promise<string | null> {
+async function fetchRegistry(bucket: R2Bucket): Promise<Registry | null> {
+  const obj = await bucket.get("registry.json");
+  if (!obj) return null;
+  try {
+    return await obj.json<Registry>();
+  } catch {
+    return null;
+  }
+}
+
+async function fetchPartial(bucket: R2Bucket, parsed: ParsedPath): Promise<string | null> {
   const key = `${parsed.vendor}/${parsed.product}/${parsed.page}/index.html`;
   const obj = await bucket.get(key);
   if (!obj) return null;
   return await obj.text();
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function renderHome(registry: Registry | null): string {
+  const body = registry
+    ? registry.vendors
+        .map(
+          (v) => `
+    <section class="vendor">
+      <h2>${escapeHtml(v.name)}</h2>
+      <ul>
+        ${v.products
+          .map(
+            (p) =>
+              `<li><a href="/${escapeHtml(v.slug)}/${escapeHtml(p.slug)}">${escapeHtml(p.name)}</a></li>`,
+          )
+          .join("")}
+      </ul>
+    </section>`,
+        )
+        .join("")
+    : `<p>Registry unavailable.</p>`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tailstory wiki</title>
+</head>
+<body>
+  <header>
+    <h1>tailstory wiki</h1>
+  </header>
+  <main>
+    ${body}
+  </main>
+</body>
+</html>`;
 }
 
 function renderPage(parsed: ParsedPath, partial: string): string {
@@ -37,13 +102,13 @@ function renderPage(parsed: ParsedPath, partial: string): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title}</title>
+  <title>${escapeHtml(title)}</title>
 </head>
 <body>
   <header>
     <a href="/">tailstory wiki</a>
     <nav>
-      <span>${parsed.vendor}</span> / <span>${parsed.product}</span>
+      <span>${escapeHtml(parsed.vendor)}</span> / <span>${escapeHtml(parsed.product)}</span>
     </nav>
   </header>
   <main>
@@ -56,11 +121,21 @@ function renderPage(parsed: ParsedPath, partial: string): string {
 </html>`;
 }
 
-function notFound(message: string): Response {
-  return new Response(`<!DOCTYPE html><html><body><h1>404</h1><p>${message}</p></body></html>`, {
-    status: 404,
-    headers: { "Content-Type": "text/html; charset=utf-8" },
+function htmlResponse(html: string, status = 200): Response {
+  return new Response(html, {
+    status,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "public, max-age=60",
+    },
   });
+}
+
+function notFound(message: string): Response {
+  return htmlResponse(
+    `<!DOCTYPE html><html><body><h1>404</h1><p>${escapeHtml(message)}</p></body></html>`,
+    404,
+  );
 }
 
 export default {
@@ -68,10 +143,8 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/" || url.pathname === "") {
-      return new Response(
-        "<!DOCTYPE html><html><body><h1>tailstory wiki</h1><p>Pick a product.</p></body></html>",
-        { headers: { "Content-Type": "text/html; charset=utf-8" } },
-      );
+      const registry = await fetchRegistry(env.DOCS);
+      return htmlResponse(renderHome(registry));
     }
 
     const parsed = parsePath(url.pathname);
@@ -84,12 +157,6 @@ export default {
       return notFound(`No doc found at ${parsed.vendor}/${parsed.product}/${parsed.page}.`);
     }
 
-    const html = renderPage(parsed, partial);
-    return new Response(html, {
-      headers: {
-        "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "public, max-age=60",
-      },
-    });
+    return htmlResponse(renderPage(parsed, partial));
   },
 } satisfies ExportedHandler<Env>;
