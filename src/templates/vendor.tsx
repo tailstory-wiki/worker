@@ -17,7 +17,7 @@ export const VendorPage: FC<VendorProps> = ({ vendor }) => (
         {[...vendor.products]
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((p) => (
-            <li>
+            <li key={p.slug}>
               <a href={`/${vendor.slug}/${p.slug}`}>{p.name}</a>
             </li>
           ))}

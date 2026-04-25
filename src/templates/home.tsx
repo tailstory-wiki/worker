@@ -23,7 +23,7 @@ export const Home: FC<HomeProps> = ({ registry }) => (
           {[...registry.vendors]
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((v) => (
-              <li>
+              <li key={v.slug}>
                 <a href={`/${v.slug}`}>{v.name}</a>
               </li>
             ))}
