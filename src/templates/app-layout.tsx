@@ -5,7 +5,6 @@ interface AppLayoutProps {
   nav?: Child;
   mainClass?: string;
   footerMode?: "site" | "plain" | "none";
-  footerContent?: Child;
 }
 
 export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
@@ -13,7 +12,6 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
   nav,
   mainClass,
   footerMode = "site",
-  footerContent,
   children,
 }) => (
   <html lang="en">
@@ -29,9 +27,16 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
         {nav && <nav>{nav}</nav>}
       </header>
       <main class={mainClass}>{children}</main>
-      {footerMode !== "none" && (
-        <footer class={footerMode === "site" ? "site-footer" : undefined}>
-          {footerContent ?? <p>Tailstory wiki</p>}
+      {footerMode === "site" && (
+        <footer class="site-footer">
+          <p>
+            <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
+          </p>
+        </footer>
+      )}
+      {footerMode === "plain" && (
+        <footer>
+          <p>Tailstory wiki</p>
         </footer>
       )}
     </body>
