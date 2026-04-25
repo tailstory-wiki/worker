@@ -9,15 +9,7 @@ interface HomeProps {
 }
 
 export const Home: FC<HomeProps> = ({ registry }) => (
-  <AppLayout
-    title="Tailstory wiki"
-    mainClass="home"
-    footerContent={
-      <p>
-        <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
-      </p>
-    }
-  >
+  <AppLayout title="Tailstory wiki">
     <section class="hero">
       <h1 class="sr-only">Documentation index</h1>
       {registry?.intro && (
@@ -25,9 +17,9 @@ export const Home: FC<HomeProps> = ({ registry }) => (
       )}
     </section>
     {registry ? (
-      <section class="vendor-index">
-        <h2>Vendors</h2>
-        <ul class="vendor-list">
+      <section>
+        <h2 class="section-title">Vendors</h2>
+        <ul class="link-list">
           {[...registry.vendors]
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((v) => (

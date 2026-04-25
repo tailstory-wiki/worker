@@ -3,17 +3,11 @@ import type { Child, FC, PropsWithChildren } from "hono/jsx";
 interface AppLayoutProps {
   title: string;
   nav?: Child;
-  mainClass?: string;
-  footerMode?: "site" | "plain" | "none";
-  footerContent?: Child;
 }
 
 export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
   title,
   nav,
-  mainClass,
-  footerMode = "site",
-  footerContent,
   children,
 }) => (
   <html lang="en">
@@ -24,18 +18,16 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
       <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
-      <header class="site-header">
-        <a href="/" class="site-title">
-          Tailstory wiki
-        </a>
+      <header>
+        <a href="/">Tailstory wiki</a>
         {nav && <nav>{nav}</nav>}
       </header>
-      <main class={mainClass}>{children}</main>
-      {footerMode !== "none" && (
-        <footer class={footerMode === "site" ? "site-footer" : undefined}>
-          {footerContent ?? <p>Tailstory wiki</p>}
-        </footer>
-      )}
+      <main>{children}</main>
+      <footer>
+        <p>
+          <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
+        </p>
+      </footer>
     </body>
   </html>
 );

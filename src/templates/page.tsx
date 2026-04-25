@@ -16,7 +16,6 @@ export const Page: FC<PageProps> = ({ parsed, partial }) => (
         <span>{parsed.vendor}</span> / <span>{parsed.product}</span>
       </>
     }
-    footerMode="plain"
   >
     {raw(partial)}
   </AppLayout>
