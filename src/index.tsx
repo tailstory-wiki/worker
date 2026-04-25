@@ -88,7 +88,10 @@ export default {
       return htmlResponse(<VendorPage vendor={vendor} version={version} />);
     }
 
-    const partial = await fetchPartial(env.DOCS, parsed);
+    const [partial, registry] = await Promise.all([
+      fetchPartial(env.DOCS, parsed),
+      fetchRegistry(env.DOCS),
+    ]);
     if (partial === null) {
       return htmlResponse(
         <NotFound
@@ -99,8 +102,17 @@ export default {
       );
     }
 
+    const vendor = registry?.vendors.find((v) => v.slug === parsed.vendor);
+    const product = vendor?.products.find((p) => p.slug === parsed.product);
+
     return htmlResponse(
-      <Page parsed={parsed} partial={partial} version={version} />,
+      <Page
+        parsed={parsed}
+        partial={partial}
+        version={version}
+        vendorName={vendor?.name}
+        productName={product?.name}
+      />,
     );
   },
 } satisfies ExportedHandler<Env>;
