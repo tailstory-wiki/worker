@@ -4,10 +4,11 @@ import { AppLayout } from "./app-layout";
 
 interface VendorProps {
   vendor: Vendor;
+  version?: string;
 }
 
-export const VendorPage: FC<VendorProps> = ({ vendor }) => (
-  <AppLayout title={`${vendor.name} — Tailstory wiki`}>
+export const VendorPage: FC<VendorProps> = ({ vendor, version }) => (
+  <AppLayout title={`${vendor.name} — Tailstory wiki`} version={version}>
     <section class="hero">
       <h1>{vendor.name}</h1>
     </section>

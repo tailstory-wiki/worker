@@ -55,15 +55,19 @@ function htmlResponse(node: { toString(): string }, status = 200): Response {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    const version = env.CF_VERSION_METADATA?.id ?? "";
 
     if (url.pathname === "/" || url.pathname === "") {
       const registry = await fetchRegistry(env.DOCS);
-      return htmlResponse(<Home registry={registry} />);
+      return htmlResponse(<Home registry={registry} version={version} />);
     }
 
     const parsed = parsePath(url.pathname);
     if (!parsed) {
-      return htmlResponse(<NotFound message="Page not found." />, 404);
+      return htmlResponse(
+        <NotFound message="Page not found." version={version} />,
+        404,
+      );
     }
 
     if (parsed.kind === "vendor") {
@@ -71,11 +75,14 @@ export default {
       const vendor = registry?.vendors.find((v) => v.slug === parsed.vendor);
       if (!vendor) {
         return htmlResponse(
-          <NotFound message={`No vendor named ${parsed.vendor}.`} />,
+          <NotFound
+            message={`No vendor named ${parsed.vendor}.`}
+            version={version}
+          />,
           404,
         );
       }
-      return htmlResponse(<VendorPage vendor={vendor} />);
+      return htmlResponse(<VendorPage vendor={vendor} version={version} />);
     }
 
     const partial = await fetchPartial(env.DOCS, parsed);
@@ -83,11 +90,14 @@ export default {
       return htmlResponse(
         <NotFound
           message={`No doc found at ${parsed.vendor}/${parsed.product}/${parsed.page}.`}
+          version={version}
         />,
         404,
       );
     }
 
-    return htmlResponse(<Page parsed={parsed} partial={partial} />);
+    return htmlResponse(
+      <Page parsed={parsed} partial={partial} version={version} />,
+    );
   },
 } satisfies ExportedHandler<Env>;

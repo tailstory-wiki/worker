@@ -6,10 +6,11 @@ import { AppLayout } from "./app-layout";
 
 interface HomeProps {
   registry: Registry | null;
+  version?: string;
 }
 
-export const Home: FC<HomeProps> = ({ registry }) => (
-  <AppLayout title="Tailstory wiki">
+export const Home: FC<HomeProps> = ({ registry, version }) => (
+  <AppLayout title="Tailstory wiki" version={version}>
     <section class="hero">
       <h1 class="sr-only">Documentation index</h1>
       {registry?.intro && (
