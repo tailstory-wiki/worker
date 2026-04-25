@@ -25,7 +25,7 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
         {nav && <nav>{nav}</nav>}
       </header>
       <main class={mainClass}>{children}</main>
-      <footer class="site-footer">
+      <footer>
         <p>
           <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
         </p>
