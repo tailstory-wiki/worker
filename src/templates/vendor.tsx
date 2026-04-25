@@ -7,12 +7,12 @@ interface VendorProps {
 }
 
 export const VendorPage: FC<VendorProps> = ({ vendor }) => (
-  <AppLayout title={`${vendor.name} — Tailstory wiki`} mainClass="home">
+  <AppLayout title={`${vendor.name} — Tailstory wiki`}>
     <section class="hero">
       <h1>{vendor.name}</h1>
     </section>
-    <section class="vendor-index">
-      <h2>Products</h2>
+    <section>
+      <h2 class="section-title">Products</h2>
       <ul class="link-list">
         {[...vendor.products]
           .sort((a, b) => a.name.localeCompare(b.name))

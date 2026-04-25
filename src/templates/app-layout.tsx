@@ -3,13 +3,11 @@ import type { Child, FC, PropsWithChildren } from "hono/jsx";
 interface AppLayoutProps {
   title: string;
   nav?: Child;
-  mainClass?: string;
 }
 
 export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
   title,
   nav,
-  mainClass,
   children,
 }) => (
   <html lang="en">
@@ -20,11 +18,11 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
       <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
-      <header class="site-header">
-        <a href="/" class="site-title">Tailstory wiki</a>
+      <header>
+        <a href="/">Tailstory wiki</a>
         {nav && <nav>{nav}</nav>}
       </header>
-      <main class={mainClass}>{children}</main>
+      <main>{children}</main>
       <footer>
         <p>
           <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
