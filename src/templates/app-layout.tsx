@@ -72,13 +72,12 @@ const ThemeSwitcher: FC = () => (
       <SunIcon />
       <MoonIcon />
     </summary>
-    <ul class="theme-menu" role="menu">
+    <ul class="theme-menu" aria-label="Color theme">
       <li>
         <button
           type="button"
-          role="menuitemradio"
           data-theme-choice="system"
-          aria-checked="true"
+          aria-pressed="true"
           aria-label="Match system"
           title="Match system"
         >
@@ -88,9 +87,8 @@ const ThemeSwitcher: FC = () => (
       <li>
         <button
           type="button"
-          role="menuitemradio"
           data-theme-choice="light"
-          aria-checked="false"
+          aria-pressed="false"
           aria-label="Light"
           title="Light"
         >
@@ -100,9 +98,8 @@ const ThemeSwitcher: FC = () => (
       <li>
         <button
           type="button"
-          role="menuitemradio"
           data-theme-choice="dark"
-          aria-checked="false"
+          aria-pressed="false"
           aria-label="Dark"
           title="Dark"
         >

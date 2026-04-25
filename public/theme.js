@@ -18,7 +18,7 @@
     root.setAttribute("data-theme-pref", choice);
     for (const btn of switcher.querySelectorAll("button[data-theme-choice]")) {
       btn.setAttribute(
-        "aria-checked",
+        "aria-pressed",
         btn.dataset.themeChoice === choice ? "true" : "false",
       );
     }

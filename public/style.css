@@ -184,7 +184,7 @@ header nav {
   color: var(--color-text);
 }
 
-.theme-menu button[aria-checked="true"] {
+.theme-menu button[aria-pressed="true"] {
   background: var(--color-bg-subtle);
   color: var(--color-link);
 }
