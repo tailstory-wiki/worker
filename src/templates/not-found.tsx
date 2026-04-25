@@ -7,8 +7,8 @@ interface NotFoundProps {
 
 export const NotFound: FC<NotFoundProps> = ({ message }) => (
   <Shell title="Not found — Tailstory wiki">
-    <header>
-      <a href="/">Tailstory wiki</a>
+    <header class="site-header">
+      <a href="/" class="site-title">Tailstory wiki</a>
     </header>
     <main>
       <h1>404</h1>
