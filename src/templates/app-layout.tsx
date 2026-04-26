@@ -133,7 +133,7 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
           {version && (
             <span class="worker-version">
               <small>
-                Worker <code title={version}>{version.slice(0, 8)}</code>
+                <code title={version}>{version.slice(0, 8)}</code>
               </small>
             </span>
           )}
