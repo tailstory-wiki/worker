@@ -129,21 +129,18 @@ export const AppLayout: FC<PropsWithChildren<AppLayoutProps>> = ({
       <header>
         <a href="/">Tailstory wiki</a>
         {nav && <nav>{nav}</nav>}
-        <ThemeSwitcher />
+        <div class="header-end">
+          {version && (
+            <span class="worker-version">
+              <small>
+                Worker <code title={version}>{version.slice(0, 8)}</code>
+              </small>
+            </span>
+          )}
+          <ThemeSwitcher />
+        </div>
       </header>
       <main>{children}</main>
-      <footer>
-        <p>
-          <a href="https://github.com/tailstory-wiki">Source on GitHub</a>
-        </p>
-        {version && (
-          <p class="worker-version">
-            <small>
-              Worker <code title={version}>{version.slice(0, 8)}</code>
-            </small>
-          </p>
-        )}
-      </footer>
       <script src="/theme.js" defer />
     </body>
   </html>
