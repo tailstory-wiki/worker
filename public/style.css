@@ -100,8 +100,18 @@ header nav {
   color: var(--color-text-muted);
 }
 
-.theme-switcher {
+.header-end {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.worker-version {
+  color: var(--color-text-muted);
+}
+
+.theme-switcher {
   position: relative;
 }
 
@@ -192,15 +202,6 @@ header nav {
   color: var(--color-link);
 }
 
-footer {
-  border-top: 1px solid var(--color-border);
-  margin-top: 4rem;
-  padding: 2rem;
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-}
-
 .hero {
   padding: 2rem 0;
   margin-bottom: 2rem;
@@ -259,6 +260,33 @@ footer {
   .link-list {
     column-count: 1;
   }
+}
+
+.doc-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0 0 0.25rem;
+}
+
+.doc-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.doc-edit {
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.doc-updated {
+  margin: 0 0 1.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
 }
 
 .sr-only {
