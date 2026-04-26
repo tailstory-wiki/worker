@@ -274,6 +274,7 @@ header {
   gap: 1rem;
   flex-wrap: wrap;
   margin: 0 0 0.25rem;
+  padding-bottom: 2px;
 }
 
 .doc-title {
