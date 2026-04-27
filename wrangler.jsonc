@@ -13,6 +13,14 @@
       "bucket_name": "tailstory-wiki"
     }
   ],
+  "d1_databases": [
+    {
+      "binding": "REGISTRY",
+      "database_name": "tailstory-wiki-registry",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
   "observability": {
     "logs": {
       "enabled": true,

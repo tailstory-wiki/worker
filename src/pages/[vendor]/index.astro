@@ -5,7 +5,7 @@ import { fetchRegistry } from "@/lib/docs";
 import { env } from "@/lib/env";
 
 const { vendor: vendorSlug } = Astro.params;
-const registry = await fetchRegistry(env.DOCS);
+const registry = await fetchRegistry(env.REGISTRY);
 const vendor = registry?.vendors.find((v) => v.slug === vendorSlug);
 
 if (!vendor) {
