@@ -21,41 +21,62 @@ function isSection(entry: TocEntry): entry is TocSection {
   /* `LeafLink` is inlined here so it can be reused for both top-level leaves
      and the leaves nested under a section heading. */
 }
-<nav class="toc-rail" aria-label="In this product">
-  <ul>
-    {
-      toc.entries.map((entry) =>
-        isSection(entry) ? (
-          <li>
-            <span>{entry.section}</span>
-            <ul>
-              {entry.pages.map((leaf: TocLeaf) => (
-                <li>
-                  <a
-                    href={tocEntryUrl(vendor, product, tocDir, leaf.page)}
-                    aria-current={
-                      leaf.page === currentPageSlug ? "page" : undefined
-                    }
-                  >
-                    {leaf.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ) : (
-          <li>
-            <a
-              href={tocEntryUrl(vendor, product, tocDir, entry.page)}
-              aria-current={
-                entry.page === currentPageSlug ? "page" : undefined
-              }
-            >
-              {entry.title}
-            </a>
-          </li>
-        ),
-      )
-    }
-  </ul>
-</nav>
+<details class="toc-panel" open>
+  <summary class="toc-toggle" aria-label="Toggle table of contents">
+    <span class="toc-toggle-label">Contents</span>
+  </summary>
+  <nav class="toc-rail" aria-label="In this product">
+    <ul>
+      {
+        toc.entries.map((entry) =>
+          isSection(entry) ? (
+            <li>
+              <span>{entry.section}</span>
+              <ul>
+                {entry.pages.map((leaf: TocLeaf) => (
+                  <li>
+                    <a
+                      href={tocEntryUrl(vendor, product, tocDir, leaf.page)}
+                      aria-current={
+                        leaf.page === currentPageSlug ? "page" : undefined
+                      }
+                    >
+                      {leaf.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ) : (
+            <li>
+              <a
+                href={tocEntryUrl(vendor, product, tocDir, entry.page)}
+                aria-current={
+                  entry.page === currentPageSlug ? "page" : undefined
+                }
+              >
+                {entry.title}
+              </a>
+            </li>
+          ),
+        )
+      }
+    </ul>
+  </nav>
+</details>
+
+<script>
+  const STORAGE_KEY = "toc-open";
+  const panel = document.querySelector<HTMLDetailsElement>(".toc-panel");
+  if (panel) {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored !== null) panel.open = stored !== "false";
+    } catch (_) {}
+    panel.addEventListener("toggle", () => {
+      try {
+        localStorage.setItem(STORAGE_KEY, String(panel.open));
+      } catch (_) {}
+    });
+  }
+</script>
