@@ -2,6 +2,7 @@ import { Home } from "./templates/home";
 import { NotFound } from "./templates/not-found";
 import { Page } from "./templates/page";
 import { VendorPage } from "./templates/vendor";
+import { resolveToc } from "./toc";
 import type { Env, ParsedPath, Registry } from "./types";
 
 function parsePath(pathname: string): ParsedPath | null {
@@ -88,9 +89,10 @@ export default {
       return htmlResponse(<VendorPage vendor={vendor} version={version} />);
     }
 
-    const [partial, registry] = await Promise.all([
+    const [partial, registry, toc] = await Promise.all([
       fetchPartial(env.DOCS, parsed),
       fetchRegistry(env.DOCS),
+      resolveToc(env.DOCS, parsed.vendor, parsed.product, parsed.page),
     ]);
     if (partial === null) {
       return htmlResponse(
@@ -109,6 +111,7 @@ export default {
       <Page
         parsed={parsed}
         partial={partial}
+        toc={toc}
         version={version}
         vendorName={vendor?.name}
         productName={product?.name}
