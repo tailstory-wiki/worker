@@ -1,25 +1,10 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "target": "ES2024",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "lib": ["ES2024"],
-
-    "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-    "noEmit": true,
-
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx"
+    "verbatimModuleSyntax": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "worker-configuration.d.ts"],
-  "exclude": ["node_modules"]
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "node_modules", "worker-configuration.d.ts"]
 }

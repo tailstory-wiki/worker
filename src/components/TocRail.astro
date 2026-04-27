@@ -1,0 +1,61 @@
+---
+import { tocEntryUrl } from "../lib/docs";
+import type { Toc, TocEntry, TocLeaf, TocSection } from "../lib/types";
+
+interface Props {
+  toc: Toc;
+  tocDir: string;
+  vendor: string;
+  product: string;
+  currentPageSlug: string;
+}
+
+const { toc, tocDir, vendor, product, currentPageSlug } = Astro.props;
+
+function isSection(entry: TocEntry): entry is TocSection {
+  return "section" in entry;
+}
+---
+
+{
+  /* `LeafLink` is inlined here so it can be reused for both top-level leaves
+     and the leaves nested under a section heading. */
+}
+<nav class="toc-rail" aria-label="In this product">
+  <ul>
+    {
+      toc.entries.map((entry) =>
+        isSection(entry) ? (
+          <li>
+            <span>{entry.section}</span>
+            <ul>
+              {entry.pages.map((leaf: TocLeaf) => (
+                <li>
+                  <a
+                    href={tocEntryUrl(vendor, product, tocDir, leaf.page)}
+                    aria-current={
+                      leaf.page === currentPageSlug ? "page" : undefined
+                    }
+                  >
+                    {leaf.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ) : (
+          <li>
+            <a
+              href={tocEntryUrl(vendor, product, tocDir, entry.page)}
+              aria-current={
+                entry.page === currentPageSlug ? "page" : undefined
+              }
+            >
+              {entry.title}
+            </a>
+          </li>
+        ),
+      )
+    }
+  </ul>
+</nav>

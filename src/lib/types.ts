@@ -1,12 +1,3 @@
-export interface Env {
-  DOCS: R2Bucket;
-  CF_VERSION_METADATA: {
-    id: string;
-    tag: string;
-    timestamp: string;
-  };
-}
-
 export interface Product {
   slug: string;
   name: string;
@@ -22,10 +13,6 @@ export interface Registry {
   intro?: string;
   vendors: Vendor[];
 }
-
-export type ParsedPath =
-  | { kind: "vendor"; vendor: string }
-  | { kind: "page"; vendor: string; product: string; page: string };
 
 export interface TocLeaf {
   title: string;

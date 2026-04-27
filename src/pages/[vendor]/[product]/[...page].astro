@@ -1,0 +1,57 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import NotFound from "../../../components/NotFound.astro";
+import TocRail from "../../../components/TocRail.astro";
+import {
+  fetchPagePartial,
+  fetchRegistry,
+  relativeSlug,
+  resolveToc,
+} from "../../../lib/docs";
+import { env } from "../../../lib/env";
+
+const { vendor: vendorSlug, product: productSlug, page: pageParam } =
+  Astro.params;
+const vendor = vendorSlug ?? "";
+const product = productSlug ?? "";
+const page = pageParam && pageParam.length > 0 ? pageParam : "index";
+
+const [partial, registry, toc] = await Promise.all([
+  fetchPagePartial(env.DOCS, vendor, product, page),
+  fetchRegistry(env.DOCS),
+  resolveToc(env.DOCS, vendor, product, page),
+]);
+
+const vendorEntry = registry?.vendors.find((v) => v.slug === vendor);
+const productEntry = vendorEntry?.products.find((p) => p.slug === product);
+const vendorName = vendorEntry?.name ?? vendor;
+const productName = productEntry?.name ?? product;
+
+if (partial === null) {
+  Astro.response.status = 404;
+}
+---
+
+{
+  partial !== null ? (
+    <Layout title={`${productName} — Tailstory wiki`}>
+      <Fragment slot="nav">
+        <span>{vendorName}</span> / <span>{productName}</span>
+      </Fragment>
+      <div class="page">
+        {toc && (
+          <TocRail
+            toc={toc.toc}
+            tocDir={toc.tocDir}
+            vendor={vendor}
+            product={product}
+            currentPageSlug={relativeSlug(page, toc.tocDir)}
+          />
+        )}
+        <article set:html={partial} />
+      </div>
+    </Layout>
+  ) : (
+    <NotFound message={`No doc found at ${vendor}/${product}/${page}.`} />
+  )
+}

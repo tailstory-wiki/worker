@@ -1,0 +1,38 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import NotFound from "../../components/NotFound.astro";
+import { fetchRegistry } from "../../lib/docs";
+import { env } from "../../lib/env";
+
+const { vendor: vendorSlug } = Astro.params;
+const registry = await fetchRegistry(env.DOCS);
+const vendor = registry?.vendors.find((v) => v.slug === vendorSlug);
+
+if (!vendor) {
+  Astro.response.status = 404;
+}
+---
+
+{
+  vendor ? (
+    <Layout title={`${vendor.name} — Tailstory wiki`}>
+      <section class="hero">
+        <h1>{vendor.name}</h1>
+      </section>
+      <section>
+        <h2 class="section-title">Products</h2>
+        <ul class="link-list">
+          {[...vendor.products]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((p) => (
+              <li>
+                <a href={`/${vendor.slug}/${p.slug}`}>{p.name}</a>
+              </li>
+            ))}
+        </ul>
+      </section>
+    </Layout>
+  ) : (
+    <NotFound message={`No vendor named ${vendorSlug}.`} />
+  )
+}

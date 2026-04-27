@@ -1,0 +1,68 @@
+---
+import ThemeSwitcher from "../components/ThemeSwitcher.astro";
+import { env } from "../lib/env";
+
+interface Props {
+  title: string;
+}
+
+// Layouts may also receive a named `nav` slot rendered between the site name
+// and the theme switcher in the header.
+
+const { title } = Astro.props;
+const version = env.CF_VERSION_METADATA?.id ?? "";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script is:inline>
+      // Pre-paint theme bootstrap so the chrome doesn't flash. Must run
+      // synchronously in <head> before the body renders.
+      (() => {
+        try {
+          const t = localStorage.getItem("theme");
+          const p = t === "light" || t === "dark" ? t : "system";
+          const r = document.documentElement;
+          r.setAttribute("data-theme-pref", p);
+          if (p !== "system") r.setAttribute("data-theme", p);
+        } catch (_) {
+          document.documentElement.setAttribute("data-theme-pref", "system");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <a href="/">Tailstory wiki</a>
+        {
+          Astro.slots.has("nav") && (
+            <nav>
+              <slot name="nav" />
+            </nav>
+          )
+        }
+        <div class="header-end">
+          {
+            version && (
+              <span class="worker-version">
+                <small>
+                  <code title={version}>{version.slice(0, 8)}</code>
+                </small>
+              </span>
+            )
+          }
+          <ThemeSwitcher />
+        </div>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

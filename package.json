@@ -1,20 +1,29 @@
 {
   "name": "@tailstory-wiki/worker",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "typecheck": "tsc --noEmit",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "wrangler dev --config dist/server/wrangler.json",
+    "deploy": "astro build && wrangler deploy --config dist/server/wrangler.json",
+    "astro": "astro",
+    "check": "astro check",
+    "typecheck": "astro check",
     "types": "wrangler types"
   },
   "dependencies": {
-    "hono": "^4.12.15",
+    "@astrojs/cloudflare": "^13.2.1",
+    "astro": "^6.1.9",
     "markdown-it": "^14.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.8",
     "@biomejs/biome": "2.4.12",
+    "@cloudflare/workers-types": "^4.20260426.1",
+    "@types/markdown-it": "^14.0.0",
     "typescript": "^6.0.3",
-    "wrangler": "^4.84.1",
-    "@types/markdown-it": "^14.0.0"
+    "wrangler": "^4.84.1"
   },
   "engines": {
     "node": ">=24.12.0"
