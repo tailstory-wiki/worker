@@ -3,12 +3,12 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "node_modules"],
   "compilerOptions": {
-     "paths": {
+    "paths": {
       "@/*": ["./src/*"]
     },
     "types": ["./worker-configuration.d.ts"],
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "verbatimModuleSyntax": true
-  },
+  }
 }

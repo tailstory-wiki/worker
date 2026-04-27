@@ -1,7 +1,7 @@
 ---
-import Layout from "@/layouts/Layout.astro";
 import NotFound from "@/components/NotFound.astro";
 import TocRail from "@/components/TocRail.astro";
+import Layout from "@/layouts/Layout.astro";
 import {
   fetchPagePartial,
   fetchRegistry,
@@ -10,8 +10,11 @@ import {
 } from "@/lib/docs";
 import { env } from "@/lib/env";
 
-const { vendor: vendorSlug, product: productSlug, page: pageParam } =
-  Astro.params;
+const {
+  vendor: vendorSlug,
+  product: productSlug,
+  page: pageParam,
+} = Astro.params;
 const vendor = vendorSlug ?? "";
 const product = productSlug ?? "";
 const page = pageParam && pageParam.length > 0 ? pageParam : "index";
