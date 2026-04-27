@@ -1,4 +1,31 @@
-import type { ResolvedToc, Toc } from "./types";
+import type { Registry, ResolvedToc, Toc } from "@/lib/types";
+
+export async function fetchRegistry(
+  bucket: R2Bucket,
+): Promise<Registry | null> {
+  const obj = await bucket.get("registry.json");
+  if (!obj) return null;
+  try {
+    return await obj.json<Registry>();
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchPagePartial(
+  bucket: R2Bucket,
+  vendor: string,
+  product: string,
+  page: string,
+): Promise<string | null> {
+  const key =
+    page === "index"
+      ? `${vendor}/${product}/index.html`
+      : `${vendor}/${product}/${page}/index.html`;
+  const obj = await bucket.get(key);
+  if (!obj) return null;
+  return await obj.text();
+}
 
 export function tocEntryUrl(
   vendor: string,
@@ -43,4 +70,11 @@ export async function resolveToc(
     if (!dir) return null;
     dir = parentDir(dir);
   }
+}
+
+export function relativeSlug(page: string, tocDir: string): string {
+  if (page === "index") return "index";
+  if (tocDir === "") return page;
+  if (page === tocDir) return "index";
+  return page.slice(tocDir.length + 1);
 }

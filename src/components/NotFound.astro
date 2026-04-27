@@ -1,0 +1,14 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+interface Props {
+  message?: string;
+}
+
+const { message = "Page not found." } = Astro.props;
+---
+
+<Layout title="Not found — Tailstory wiki">
+  <h1>404</h1>
+  <p>{message}</p>
+</Layout>

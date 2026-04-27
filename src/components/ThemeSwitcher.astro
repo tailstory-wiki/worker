@@ -1,0 +1,113 @@
+---
+import ThemeIcon from "@/components/ThemeIcon.astro";
+---
+
+<details class="theme-switcher">
+  <summary aria-label="Change color theme" title="Change color theme">
+    <ThemeIcon name="system" />
+    <ThemeIcon name="light" />
+    <ThemeIcon name="dark" />
+  </summary>
+  <ul class="theme-menu" aria-label="Color theme">
+    <li>
+      <button
+        type="button"
+        data-theme-choice="system"
+        aria-pressed="true"
+        aria-label="Match system"
+        title="Match system"
+      >
+        <ThemeIcon name="system" />
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        data-theme-choice="light"
+        aria-pressed="false"
+        aria-label="Light"
+        title="Light"
+      >
+        <ThemeIcon name="light" />
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        data-theme-choice="dark"
+        aria-pressed="false"
+        aria-label="Dark"
+        title="Dark"
+      >
+        <ThemeIcon name="dark" />
+      </button>
+    </li>
+  </ul>
+</details>
+
+<script>
+  const STORAGE_KEY = "theme";
+  const root = document.documentElement;
+  const switcher = document.querySelector<HTMLDetailsElement>(
+    ".theme-switcher",
+  );
+  if (switcher) {
+    const current = (): "system" | "light" | "dark" => {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored === "light" || stored === "dark" ? stored : "system";
+    };
+
+    const apply = (choice: "system" | "light" | "dark") => {
+      if (choice === "light" || choice === "dark") {
+        root.setAttribute("data-theme", choice);
+      } else {
+        root.removeAttribute("data-theme");
+      }
+      root.setAttribute("data-theme-pref", choice);
+      for (const btn of switcher.querySelectorAll<HTMLButtonElement>(
+        "button[data-theme-choice]",
+      )) {
+        btn.setAttribute(
+          "aria-pressed",
+          btn.dataset.themeChoice === choice ? "true" : "false",
+        );
+      }
+    };
+
+    apply(current());
+
+    switcher.addEventListener("click", (event) => {
+      const target = event.target as Element | null;
+      const btn = target?.closest<HTMLButtonElement>(
+        "button[data-theme-choice]",
+      );
+      if (!btn) return;
+      const choice = btn.dataset.themeChoice as
+        | "system"
+        | "light"
+        | "dark"
+        | undefined;
+      if (!choice) return;
+      if (choice === "system") {
+        localStorage.removeItem(STORAGE_KEY);
+      } else {
+        localStorage.setItem(STORAGE_KEY, choice);
+      }
+      apply(choice);
+      switcher.open = false;
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target as Node | null;
+      if (switcher.open && target && !switcher.contains(target)) {
+        switcher.open = false;
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && switcher.open) {
+        switcher.open = false;
+      }
+    });
+  }
+</script>
