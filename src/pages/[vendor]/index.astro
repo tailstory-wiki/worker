@@ -1,8 +1,8 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import NotFound from "../../components/NotFound.astro";
-import { fetchRegistry } from "../../lib/docs";
-import { env } from "../../lib/env";
+import Layout from "@/layouts/Layout.astro";
+import NotFound from "@/components/NotFound.astro";
+import { fetchRegistry } from "@/lib/docs";
+import { env } from "@/lib/env";
 
 const { vendor: vendorSlug } = Astro.params;
 const registry = await fetchRegistry(env.DOCS);

@@ -1,4 +1,4 @@
-import type { Registry, ResolvedToc, Toc } from "./types";
+import type { Registry, ResolvedToc, Toc } from "@/lib/types";
 
 export async function fetchRegistry(
   bucket: R2Bucket,

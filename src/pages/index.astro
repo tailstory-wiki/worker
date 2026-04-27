@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { fetchRegistry } from "../lib/docs";
-import { env } from "../lib/env";
-import { renderMarkdown } from "../lib/markdown";
+import Layout from "@/layouts/Layout.astro";
+import { fetchRegistry } from "@/lib/docs";
+import { env } from "@/lib/env";
+import { renderMarkdown } from "@/lib/markdown";
 
 const registry = await fetchRegistry(env.DOCS);
 const sortedVendors = registry
