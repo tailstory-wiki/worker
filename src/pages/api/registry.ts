@@ -55,16 +55,12 @@ export const POST: APIRoute = async ({ request }) => {
 
   const { vendor, product } = body;
   await env.REGISTRY.batch([
-    env.REGISTRY
-      .prepare(
-        "INSERT INTO vendors (slug, name) VALUES (?1, ?2) ON CONFLICT(slug) DO UPDATE SET name = excluded.name",
-      )
-      .bind(vendor.slug, vendor.name),
-    env.REGISTRY
-      .prepare(
-        "INSERT INTO products (vendor_slug, slug, name) VALUES (?1, ?2, ?3) ON CONFLICT(vendor_slug, slug) DO UPDATE SET name = excluded.name",
-      )
-      .bind(vendor.slug, product.slug, product.name),
+    env.REGISTRY.prepare(
+      "INSERT INTO vendors (slug, name) VALUES (?1, ?2) ON CONFLICT(slug) DO UPDATE SET name = excluded.name",
+    ).bind(vendor.slug, vendor.name),
+    env.REGISTRY.prepare(
+      "INSERT INTO products (vendor_slug, slug, name) VALUES (?1, ?2, ?3) ON CONFLICT(vendor_slug, slug) DO UPDATE SET name = excluded.name",
+    ).bind(vendor.slug, product.slug, product.name),
   ]);
 
   return new Response(JSON.stringify({ ok: true }), {

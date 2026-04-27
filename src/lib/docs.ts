@@ -7,9 +7,7 @@ interface RegistryRow {
   product_name: string | null;
 }
 
-export async function fetchRegistry(
-  db: D1Database,
-): Promise<Registry | null> {
+export async function fetchRegistry(db: D1Database): Promise<Registry | null> {
   try {
     const result = await db
       .prepare(
