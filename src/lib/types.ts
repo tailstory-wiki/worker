@@ -10,7 +10,6 @@ export interface Vendor {
 }
 
 export interface Registry {
-  intro?: string;
   vendors: Vendor[];
 }
 

@@ -1,12 +1,44 @@
-import type { Registry, ResolvedToc, Toc } from "@/lib/types";
+import type { Product, Registry, ResolvedToc, Toc, Vendor } from "@/lib/types";
 
-export async function fetchRegistry(
-  bucket: R2Bucket,
-): Promise<Registry | null> {
-  const obj = await bucket.get("registry.json");
-  if (!obj) return null;
+interface RegistryRow {
+  vendor_slug: string;
+  vendor_name: string;
+  product_slug: string | null;
+  product_name: string | null;
+}
+
+export async function fetchRegistry(db: D1Database): Promise<Registry | null> {
   try {
-    return await obj.json<Registry>();
+    const result = await db
+      .prepare(
+        `SELECT v.slug AS vendor_slug, v.name AS vendor_name,
+                p.slug AS product_slug, p.name AS product_name
+         FROM vendors v
+         LEFT JOIN products p ON p.vendor_slug = v.slug
+         ORDER BY v.slug, p.slug`,
+      )
+      .all<RegistryRow>();
+
+    const byVendor = new Map<string, Vendor>();
+    for (const row of result.results) {
+      let vendor = byVendor.get(row.vendor_slug);
+      if (!vendor) {
+        vendor = {
+          slug: row.vendor_slug,
+          name: row.vendor_name,
+          products: [],
+        };
+        byVendor.set(row.vendor_slug, vendor);
+      }
+      if (row.product_slug && row.product_name) {
+        const product: Product = {
+          slug: row.product_slug,
+          name: row.product_name,
+        };
+        vendor.products.push(product);
+      }
+    }
+    return { vendors: [...byVendor.values()] };
   } catch {
     return null;
   }

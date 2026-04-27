@@ -3,6 +3,8 @@
 
 interface Env {
   DOCS: R2Bucket;
+  REGISTRY: D1Database;
+  REGISTRY_TOKEN: string;
   ASSETS: Fetcher;
   CF_VERSION_METADATA: {
     id: string;
@@ -16,6 +18,8 @@ interface Env {
 declare namespace Cloudflare {
   interface Env {
     DOCS: R2Bucket;
+    REGISTRY: D1Database;
+    REGISTRY_TOKEN: string;
     ASSETS: Fetcher;
     CF_VERSION_METADATA: {
       id: string;

@@ -21,7 +21,7 @@ const page = pageParam && pageParam.length > 0 ? pageParam : "index";
 
 const [partial, registry, toc] = await Promise.all([
   fetchPagePartial(env.DOCS, vendor, product, page),
-  fetchRegistry(env.DOCS),
+  fetchRegistry(env.REGISTRY),
   resolveToc(env.DOCS, vendor, product, page),
 ]);
 

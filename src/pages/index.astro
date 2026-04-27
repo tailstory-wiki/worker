@@ -4,17 +4,20 @@ import { fetchRegistry } from "@/lib/docs";
 import { env } from "@/lib/env";
 import { renderMarkdown } from "@/lib/markdown";
 
-const registry = await fetchRegistry(env.DOCS);
+const INTRO =
+  "Documentation for tools we use at Tailstory. Mostly for us, sometimes for you too.";
+
+const registry = await fetchRegistry(env.REGISTRY);
 const sortedVendors = registry
   ? [...registry.vendors].sort((a, b) => a.name.localeCompare(b.name))
   : [];
-const introHtml = registry?.intro ? renderMarkdown(registry.intro) : null;
+const introHtml = renderMarkdown(INTRO);
 ---
 
 <Layout title="Tailstory wiki">
   <section class="hero">
     <h1 class="sr-only">Documentation index</h1>
-    {introHtml && <div class="hero-intro" set:html={introHtml} />}
+    <div class="hero-intro" set:html={introHtml} />
   </section>
   {
     registry ? (
