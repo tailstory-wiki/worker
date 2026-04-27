@@ -26,3 +26,24 @@ export interface Registry {
 export type ParsedPath =
   | { kind: "vendor"; vendor: string }
   | { kind: "page"; vendor: string; product: string; page: string };
+
+export interface TocLeaf {
+  title: string;
+  page: string;
+}
+
+export interface TocSection {
+  section: string;
+  pages: TocLeaf[];
+}
+
+export type TocEntry = TocLeaf | TocSection;
+
+export interface Toc {
+  entries: TocEntry[];
+}
+
+export interface ResolvedToc {
+  toc: Toc;
+  tocDir: string;
+}
