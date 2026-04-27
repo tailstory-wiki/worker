@@ -371,6 +371,16 @@ header {
   color: var(--color-text);
 }
 
+.toc-panel:not([open]) .toc-toggle-label {
+  display: none;
+}
+
+.toc-panel:not([open]) .toc-toggle {
+  border-bottom-color: transparent;
+  margin-bottom: 0;
+  padding-bottom: 0.25rem;
+}
+
 .toc-rail ul {
   list-style: none;
   margin: 0;
