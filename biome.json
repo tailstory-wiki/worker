@@ -10,9 +10,7 @@
     "includes": [
       "**",
       "!!worker-configuration.d.ts",
-      "!**/*.astro",
       "!dist",
-      "!.astro"
     ]
   },
   "formatter": {
