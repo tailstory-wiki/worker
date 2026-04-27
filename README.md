@@ -8,9 +8,6 @@ served from an R2 bucket.
 
 - `npm run dev` – Astro dev server.
 - `npm run build` – produce the Cloudflare Worker bundle in `dist/`.
-- `npm run preview` – run the built worker locally with Wrangler.
-- `npm run deploy` – build and deploy with Wrangler.
-- `npm run check` – run `astro check` over the project.
 
 ## Project layout
 
