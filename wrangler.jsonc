@@ -17,7 +17,7 @@
     {
       "binding": "REGISTRY",
       "database_name": "tailstory-wiki-registry",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "database_id": "b1e210d5-0407-4c5b-950f-5e0dcf51a66f",
       "migrations_dir": "migrations"
     }
   ],
