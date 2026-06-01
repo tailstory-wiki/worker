@@ -9,14 +9,14 @@
     "types": "wrangler types"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.5.1",
+    "@astrojs/cloudflare": "^13.5.4",
     "astro": "^6.2.2",
-    "markdown-it": "^14.0.0"
+    "markdown-it": "^14.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
     "@types/markdown-it": "^14.0.0",
-    "@types/node": "^25.8.0",
+    "@types/node": "^25.9.1",
     "wrangler": "^4.94.0"
   },
   "engines": {
