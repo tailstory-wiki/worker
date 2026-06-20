@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.5.4",
-    "astro": "^6.2.2",
+    "astro": "^6.4.8",
     "markdown-it": "^14.2.0"
   },
   "devDependencies": {
