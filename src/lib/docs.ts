@@ -99,11 +99,11 @@ export async function fetchLinks(
   }
 }
 
-// Builder layouts stamp a page's `ms.topic` frontmatter onto the partial's
-// root <article> element as `data-ms-topic`. Hub pages render without the
+// Builder layouts stamp a page's `tsy.topic` frontmatter onto the partial's
+// root <article> element as `data-tsy-topic`. Hub pages render without the
 // TOC rail. The pattern is anchored to the first non-whitespace tag, so the
 // attribute appearing inside body content can never match.
-const HUB_PAGE_PARTIAL_PATTERN = /^\s*<article[^>]*\bdata-ms-topic="hub-page"/;
+const HUB_PAGE_PARTIAL_PATTERN = /^\s*<article[^>]*\bdata-tsy-topic="hub-page"/;
 
 export function isHubPagePartial(partial: string): boolean {
   return HUB_PAGE_PARTIAL_PATTERN.test(partial);

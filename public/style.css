@@ -544,7 +544,7 @@ header {
 }
 
 /* Cap entry: the leaf pointing at the TOC directory's own landing page
-   (page: index), set off Learn-style as the tree's title. */
+   (page: index), set off as the tree's title. */
 
 .toc-rail > ul > li.toc-cap {
   padding-bottom: 0.375rem;

@@ -56,7 +56,7 @@ const tabs = tabLeaves.map((tabLeaf) => ({
   active: page === tabLeaf.page || page.startsWith(`${tabLeaf.page}/`),
 }));
 
-// Hub pages (ms.topic: hub-page) render without the TOC rail.
+// Hub pages (tsy.topic: hub-page) render without the TOC rail.
 const hideTocRail = partial !== null && isHubPagePartial(partial);
 
 if (partial === null) {

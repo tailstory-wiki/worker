@@ -16,8 +16,8 @@ repo updates from its publish workflow.
 - Product-page subnav tabs come from the optional `tabs` list in the
   product-root `toc.json`; no `tabs` key means no tabs (there is no
   fallback to the entry list).
-- Partials whose root element carries `data-ms-topic="hub-page"`
-  (stamped by the builder from `ms.topic` frontmatter) render without
+- Partials whose root element carries `data-tsy-topic="hub-page"`
+  (stamped by the builder from `tsy.topic` frontmatter) render without
   the TOC rail.
 
 ## Project layout
