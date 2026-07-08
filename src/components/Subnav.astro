@@ -1,7 +1,7 @@
 ---
 import type { ProductLink } from "@/lib/types";
 
-interface Crumb {
+interface Breadcrumb {
   label: string;
   href?: string;
 }
@@ -13,28 +13,28 @@ interface Tab {
 }
 
 interface Props {
-  crumbs: Crumb[];
+  breadcrumbs: Breadcrumb[];
   tabs?: Tab[];
   links?: ProductLink[];
 }
 
-const { crumbs, tabs = [], links = [] } = Astro.props;
+const { breadcrumbs, tabs = [], links = [] } = Astro.props;
 ---
 
 <div class="subnav-inner">
   <nav class="subnav-crumbs" aria-label="Breadcrumb">
     {
-      crumbs.map((crumb, i) => (
+      breadcrumbs.map((breadcrumb, index) => (
         <>
-          {i > 0 && (
+          {index > 0 && (
             <span class="crumb-sep" aria-hidden="true">
               /
             </span>
           )}
-          {crumb.href ? (
-            <a href={crumb.href}>{crumb.label}</a>
+          {breadcrumb.href ? (
+            <a href={breadcrumb.href}>{breadcrumb.label}</a>
           ) : (
-            <span>{crumb.label}</span>
+            <span>{breadcrumb.label}</span>
           )}
         </>
       ))

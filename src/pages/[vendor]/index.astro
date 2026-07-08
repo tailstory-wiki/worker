@@ -19,12 +19,12 @@ if (!vendor) {
     <Layout title={`${vendor.name} — Tailstory wiki`}>
       <Subnav
         slot="subnav"
-        crumbs={[{ label: vendor.name }]}
+        breadcrumbs={[{ label: vendor.name }]}
         tabs={[...vendor.products]
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((p) => ({
-            label: p.name,
-            href: `/${vendor.slug}/${p.slug}`,
+          .sort((productA, productB) => productA.name.localeCompare(productB.name))
+          .map((product) => ({
+            label: product.name,
+            href: `/${vendor.slug}/${product.slug}`,
           }))}
       />
       <section class="hero">

@@ -37,7 +37,7 @@ const productEntry = vendorEntry?.products.find((p) => p.slug === product);
 const vendorName = vendorEntry?.name ?? vendor;
 const productName = productEntry?.name ?? product;
 
-const crumbs = [
+const breadcrumbs = [
   { label: vendorName, href: `/${vendor}` },
   { label: productName, href: `/${vendor}/${product}` },
 ];
@@ -62,7 +62,7 @@ if (partial === null) {
     <Layout title={`${productName} — Tailstory wiki`}>
       <Subnav
         slot="subnav"
-        crumbs={crumbs}
+        breadcrumbs={breadcrumbs}
         tabs={tabs}
         links={links?.links ?? []}
       />
