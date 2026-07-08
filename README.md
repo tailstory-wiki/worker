@@ -1,9 +1,10 @@
 # worker
 
 Astro 6 site running on Cloudflare Workers. The Worker SSRs pages whose
-content (per-product TOCs and pre-rendered HTML partials) is served from
-an R2 bucket, with vendor/product display names sourced from a D1
-database that each docs repo updates from its publish workflow.
+content (per-product TOCs, pre-rendered HTML partials, and optional
+external-links manifests) is served from an R2 bucket, with
+vendor/product display names sourced from a D1 database that each docs
+repo updates from its publish workflow.
 
 ## Scripts
 
@@ -13,8 +14,8 @@ database that each docs repo updates from its publish workflow.
 ## Project layout
 
 - `src/pages/` – file-based routes (`/`, `/[vendor]`, `/[vendor]/[product]/[...page]`, `/api/registry`, `404`).
-- `src/layouts/Layout.astro` – shared chrome (head, header, theme switcher, footer).
-- `src/components/` – `ThemeSwitcher`, `TocRail`, `NotFound`, etc.
+- `src/layouts/Layout.astro` – shared chrome (head, header with optional `subnav` second row, theme switcher).
+- `src/components/` – `ThemeSwitcher`, `TocRail`, `Subnav`, `NotFound`, etc.
 - `src/lib/` – shared helpers (`docs`, `markdown`, `env`, `types`).
 - `migrations/` – D1 schema migrations.
 - `public/` – static assets served at the site root.

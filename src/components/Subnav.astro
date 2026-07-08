@@ -1,0 +1,65 @@
+---
+import type { ProductLink } from "@/lib/types";
+
+interface Breadcrumb {
+  label: string;
+  href?: string;
+}
+
+interface Tab {
+  label: string;
+  href: string;
+  active?: boolean;
+}
+
+interface Props {
+  breadcrumbs: Breadcrumb[];
+  tabs?: Tab[];
+  links?: ProductLink[];
+}
+
+const { breadcrumbs, tabs = [], links = [] } = Astro.props;
+---
+
+<div class="subnav-inner">
+  <nav class="subnav-crumbs" aria-label="Breadcrumb">
+    {
+      breadcrumbs.map((breadcrumb, index) => (
+        <>
+          {index > 0 && (
+            <span class="crumb-sep" aria-hidden="true">
+              /
+            </span>
+          )}
+          {breadcrumb.href ? (
+            <a href={breadcrumb.href}>{breadcrumb.label}</a>
+          ) : (
+            <span>{breadcrumb.label}</span>
+          )}
+        </>
+      ))
+    }
+  </nav>
+  {
+    tabs.length > 0 && (
+      <nav class="subnav-tabs" aria-label="Sections">
+        {tabs.map((tab) => (
+          <a href={tab.href} aria-current={tab.active ? "page" : undefined}>
+            {tab.label}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+  {
+    links.length > 0 && (
+      <nav class="subnav-links" aria-label="External links">
+        {links.map((link) => (
+          <a href={link.href} rel="nofollow noopener" target="_blank">
+            {link.title} ↗
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</div>

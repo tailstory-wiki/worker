@@ -1,5 +1,6 @@
 ---
 import NotFound from "@/components/NotFound.astro";
+import Subnav from "@/components/Subnav.astro";
 import Layout from "@/layouts/Layout.astro";
 import { fetchRegistry } from "@/lib/docs";
 import { env } from "@/lib/env";
@@ -16,6 +17,16 @@ if (!vendor) {
 {
   vendor ? (
     <Layout title={`${vendor.name} — Tailstory wiki`}>
+      <Subnav
+        slot="subnav"
+        breadcrumbs={[{ label: vendor.name }]}
+        tabs={[...vendor.products]
+          .sort((productA, productB) => productA.name.localeCompare(productB.name))
+          .map((product) => ({
+            label: product.name,
+            href: `/${vendor.slug}/${product.slug}`,
+          }))}
+      />
       <section class="hero">
         <h1>{vendor.name}</h1>
       </section>

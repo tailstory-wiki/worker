@@ -6,8 +6,8 @@ interface Props {
   title: string;
 }
 
-// Layouts may also receive a named `nav` slot rendered between the site name
-// and the theme switcher in the header.
+// Layouts may also receive a named `subnav` slot rendered as a second header
+// row below the site name, for vendor/product-contextual navigation.
 
 const { title } = Astro.props;
 const version = env.CF_VERSION_METADATA?.id ?? "";
@@ -40,13 +40,6 @@ const version = env.CF_VERSION_METADATA?.id ?? "";
     <header>
       <div class="header-inner">
         <a href="/">Tailstory wiki</a>
-        {
-          Astro.slots.has("nav") && (
-            <nav>
-              <slot name="nav" />
-            </nav>
-          )
-        }
         <div class="header-end">
           {
             version && (
@@ -60,6 +53,13 @@ const version = env.CF_VERSION_METADATA?.id ?? "";
           <ThemeSwitcher />
         </div>
       </div>
+      {
+        Astro.slots.has("subnav") && (
+          <div class="header-subnav">
+            <slot name="subnav" />
+          </div>
+        )
+      }
     </header>
     <main>
       <slot />
