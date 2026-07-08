@@ -27,6 +27,7 @@ export type TocEntry = TocLeaf | TocSection;
 
 export interface Toc {
   entries: TocEntry[];
+  tabs?: TocLeaf[];
 }
 
 export interface ResolvedToc {

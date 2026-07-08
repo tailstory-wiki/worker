@@ -393,6 +393,29 @@ header {
   color: var(--color-text-muted);
 }
 
+/* Card groups: landing.njk wraps card grids in sections with optional
+   headings taken from the TOC's {section, pages} groups. */
+
+.card-groups {
+  margin: 1.5rem 0 0;
+}
+
+.card-group + .card-group {
+  margin-top: 2rem;
+}
+
+.card-group-title {
+  margin: 0 0 1rem;
+  padding-bottom: 0.375rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-group > .card-grid {
+  margin-top: 0; /* .card-groups already provides the outer offset */
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -518,6 +541,24 @@ header {
   color: var(--color-link);
   background: var(--color-bg-subtle);
   font-weight: 500;
+}
+
+/* Cap entry: the leaf pointing at the TOC directory's own landing page
+   (page: index), set off Learn-style as the tree's title. */
+
+.toc-rail > ul > li.toc-cap {
+  padding-bottom: 0.375rem;
+  margin-bottom: 0.375rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.toc-rail > ul > li.toc-cap > a {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.toc-rail > ul > li.toc-cap > a[aria-current="page"] {
+  color: var(--color-link);
 }
 
 .toc-rail ul ul {

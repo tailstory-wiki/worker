@@ -48,7 +48,7 @@ function isSection(entry: TocEntry): entry is TocSection {
               </ul>
             </li>
           ) : (
-            <li>
+            <li class:list={[entry.page === "index" && "toc-cap"]}>
               <a
                 href={tocEntryUrl(vendor, product, tocDir, entry.page)}
                 aria-current={
