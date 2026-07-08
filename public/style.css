@@ -101,8 +101,70 @@ header {
   color: var(--color-text);
 }
 
-.header-inner nav {
+.header-subnav {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-subtle);
+}
+
+.subnav-inner {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: stretch;
+  gap: 1.5rem;
+  min-height: 2.5rem;
+}
+
+.subnav-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.subnav-crumbs .crumb-sep,
+.subnav-crumbs span {
   color: var(--color-text-muted);
+}
+
+.subnav-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.subnav-tabs a {
+  display: flex;
+  align-items: center;
+  padding: 0 0.625rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.subnav-tabs a:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.subnav-tabs a[aria-current="page"] {
+  color: var(--color-text);
+  font-weight: 600;
+  border-bottom-color: var(--color-link);
+}
+
+.subnav-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
 }
 
 .header-end {
@@ -296,6 +358,41 @@ header {
   font-size: 0.875rem;
 }
 
+/* Card grid emitted by the builder's landing.njk layout */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+}
+
+.card {
+  display: block;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.card:hover {
+  text-decoration: none;
+  border-color: var(--color-link);
+  background: var(--color-bg-subtle);
+}
+
+.card-title {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-link);
+}
+
+.card-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -440,5 +537,18 @@ header {
 
   .toc-panel:not([open]) {
     width: 100%;
+  }
+
+  .subnav-inner {
+    flex-wrap: wrap;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    column-gap: 1rem;
+    row-gap: 0;
+  }
+
+  .subnav-tabs {
+    order: 3;
+    flex-basis: 100%;
   }
 }

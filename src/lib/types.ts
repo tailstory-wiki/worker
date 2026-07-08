@@ -33,3 +33,12 @@ export interface ResolvedToc {
   toc: Toc;
   tocDir: string;
 }
+
+export interface ProductLink {
+  title: string;
+  href: string;
+}
+
+export interface ProductLinks {
+  links: ProductLink[];
+}

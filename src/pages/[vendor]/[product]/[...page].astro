@@ -1,14 +1,19 @@
 ---
 import NotFound from "@/components/NotFound.astro";
+import Subnav from "@/components/Subnav.astro";
 import TocRail from "@/components/TocRail.astro";
 import Layout from "@/layouts/Layout.astro";
 import {
+  fetchLinks,
   fetchPagePartial,
   fetchRegistry,
+  fetchRootToc,
   relativeSlug,
   resolveToc,
+  tocEntryUrl,
 } from "@/lib/docs";
 import { env } from "@/lib/env";
+import type { TocLeaf } from "@/lib/types";
 
 const {
   vendor: vendorSlug,
@@ -19,16 +24,33 @@ const vendor = vendorSlug ?? "";
 const product = productSlug ?? "";
 const page = pageParam && pageParam.length > 0 ? pageParam : "index";
 
-const [partial, registry, toc] = await Promise.all([
+const [partial, registry, toc, rootToc, links] = await Promise.all([
   fetchPagePartial(env.DOCS, vendor, product, page),
   fetchRegistry(env.REGISTRY),
   resolveToc(env.DOCS, vendor, product, page),
+  fetchRootToc(env.DOCS, vendor, product),
+  fetchLinks(env.DOCS, vendor, product),
 ]);
 
 const vendorEntry = registry?.vendors.find((v) => v.slug === vendor);
 const productEntry = vendorEntry?.products.find((p) => p.slug === product);
 const vendorName = vendorEntry?.name ?? vendor;
 const productName = productEntry?.name ?? product;
+
+const crumbs = [
+  { label: vendorName, href: `/${vendor}` },
+  { label: productName, href: `/${vendor}/${product}` },
+];
+
+// Section tabs: the product-root TOC's top-level leaf entries. A tab is
+// active when the current page is the entry itself or lives underneath it.
+const tabs = (rootToc?.entries ?? [])
+  .filter((entry): entry is TocLeaf => "page" in entry)
+  .map((leaf) => ({
+    label: leaf.title,
+    href: tocEntryUrl(vendor, product, "", leaf.page),
+    active: page === leaf.page || page.startsWith(`${leaf.page}/`),
+  }));
 
 if (partial === null) {
   Astro.response.status = 404;
@@ -38,9 +60,12 @@ if (partial === null) {
 {
   partial !== null ? (
     <Layout title={`${productName} — Tailstory wiki`}>
-      <Fragment slot="nav">
-        <span>{vendorName}</span> / <span>{productName}</span>
-      </Fragment>
+      <Subnav
+        slot="subnav"
+        crumbs={crumbs}
+        tabs={tabs}
+        links={links?.links ?? []}
+      />
       <div class="page">
         {toc && (
           <TocRail

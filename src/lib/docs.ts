@@ -1,4 +1,11 @@
-import type { Product, Registry, ResolvedToc, Toc, Vendor } from "@/lib/types";
+import type {
+  Product,
+  ProductLinks,
+  Registry,
+  ResolvedToc,
+  Toc,
+  Vendor,
+} from "@/lib/types";
 
 interface RegistryRow {
   vendor_slug: string;
@@ -57,6 +64,37 @@ export async function fetchPagePartial(
   const obj = await bucket.get(key);
   if (!obj) return null;
   return await obj.text();
+}
+
+// The product-root TOC, regardless of which nearer toc.json the sidebar uses.
+// Feeds the subnav's section tabs.
+export async function fetchRootToc(
+  bucket: R2Bucket,
+  vendor: string,
+  product: string,
+): Promise<Toc | null> {
+  const obj = await bucket.get(`${vendor}/${product}/toc.json`);
+  if (!obj) return null;
+  try {
+    return await obj.json<Toc>();
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchLinks(
+  bucket: R2Bucket,
+  vendor: string,
+  product: string,
+): Promise<ProductLinks | null> {
+  const obj = await bucket.get(`${vendor}/${product}/links.json`);
+  if (!obj) return null;
+  try {
+    const data = await obj.json<ProductLinks>();
+    return Array.isArray(data?.links) ? data : null;
+  } catch {
+    return null;
+  }
 }
 
 export function tocEntryUrl(
