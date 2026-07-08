@@ -7,7 +7,9 @@ import { env } from "@/lib/env";
 
 const { vendor: vendorSlug } = Astro.params;
 const registry = await fetchRegistry(env.REGISTRY);
-const vendor = registry?.vendors.find((v) => v.slug === vendorSlug);
+const vendor = registry?.vendors.find(
+  (vendorRecord) => vendorRecord.slug === vendorSlug,
+);
 
 if (!vendor) {
   Astro.response.status = 404;
@@ -19,7 +21,7 @@ if (!vendor) {
     <Layout title={`${vendor.name} — Tailstory wiki`}>
       <Subnav
         slot="subnav"
-        breadcrumbs={[{ label: vendor.name }]}
+        breadcrumbs={[{ label: vendor.name, href: `/${vendor.slug}` }]}
         tabs={[...vendor.products]
           .sort((productA, productB) => productA.name.localeCompare(productB.name))
           .map((product) => ({
@@ -34,10 +36,12 @@ if (!vendor) {
         <h2 class="section-title">Products</h2>
         <ul class="link-list">
           {[...vendor.products]
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map((p) => (
+            .sort((productA, productB) =>
+              productA.name.localeCompare(productB.name),
+            )
+            .map((product) => (
               <li>
-                <a href={`/${vendor.slug}/${p.slug}`}>{p.name}</a>
+                <a href={`/${vendor.slug}/${product.slug}`}>{product.name}</a>
               </li>
             ))}
         </ul>

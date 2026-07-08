@@ -8,12 +8,12 @@ import {
   fetchPagePartial,
   fetchRegistry,
   fetchRootToc,
+  isHubPagePartial,
   relativeSlug,
   resolveToc,
   tocEntryUrl,
 } from "@/lib/docs";
 import { env } from "@/lib/env";
-import type { TocLeaf } from "@/lib/types";
 
 const {
   vendor: vendorSlug,
@@ -32,8 +32,12 @@ const [partial, registry, toc, rootToc, links] = await Promise.all([
   fetchLinks(env.DOCS, vendor, product),
 ]);
 
-const vendorEntry = registry?.vendors.find((v) => v.slug === vendor);
-const productEntry = vendorEntry?.products.find((p) => p.slug === product);
+const vendorEntry = registry?.vendors.find(
+  (vendorRecord) => vendorRecord.slug === vendor,
+);
+const productEntry = vendorEntry?.products.find(
+  (productRecord) => productRecord.slug === product,
+);
 const vendorName = vendorEntry?.name ?? vendor;
 const productName = productEntry?.name ?? product;
 
@@ -42,15 +46,18 @@ const breadcrumbs = [
   { label: productName, href: `/${vendor}/${product}` },
 ];
 
-// Section tabs: the product-root TOC's top-level leaf entries. A tab is
+// Section tabs: the curated `tabs` list from the product-root toc.json,
+// rendered in the authored order. No tabs key means no tabs. A tab is
 // active when the current page is the entry itself or lives underneath it.
-const tabs = (rootToc?.entries ?? [])
-  .filter((entry): entry is TocLeaf => "page" in entry)
-  .map((leaf) => ({
-    label: leaf.title,
-    href: tocEntryUrl(vendor, product, "", leaf.page),
-    active: page === leaf.page || page.startsWith(`${leaf.page}/`),
-  }));
+const tabLeaves = Array.isArray(rootToc?.tabs) ? rootToc.tabs : [];
+const tabs = tabLeaves.map((tabLeaf) => ({
+  label: tabLeaf.title,
+  href: tocEntryUrl(vendor, product, "", tabLeaf.page),
+  active: page === tabLeaf.page || page.startsWith(`${tabLeaf.page}/`),
+}));
+
+// Hub pages (tsy.topic: hub-page) render without the TOC rail.
+const hideTocRail = partial !== null && isHubPagePartial(partial);
 
 if (partial === null) {
   Astro.response.status = 404;
@@ -67,7 +74,7 @@ if (partial === null) {
         links={links?.links ?? []}
       />
       <div class="page">
-        {toc && (
+        {toc && !hideTocRail && (
           <TocRail
             toc={toc.toc}
             tocDir={toc.tocDir}
