@@ -73,9 +73,11 @@ export async function fetchRootToc(
   vendor: string,
   product: string,
 ): Promise<Toc | null> {
-  const obj = await bucket.get(`${vendor}/${product}/toc.json`);
-  if (!obj) return null;
+  // Subnav data is optional: swallow R2 faults, not just missing objects,
+  // so the page still renders without tabs.
   try {
+    const obj = await bucket.get(`${vendor}/${product}/toc.json`);
+    if (!obj) return null;
     return await obj.json<Toc>();
   } catch {
     return null;
@@ -87,9 +89,9 @@ export async function fetchLinks(
   vendor: string,
   product: string,
 ): Promise<ProductLinks | null> {
-  const obj = await bucket.get(`${vendor}/${product}/links.json`);
-  if (!obj) return null;
   try {
+    const obj = await bucket.get(`${vendor}/${product}/links.json`);
+    if (!obj) return null;
     const data = await obj.json<ProductLinks>();
     return Array.isArray(data?.links) ? data : null;
   } catch {
