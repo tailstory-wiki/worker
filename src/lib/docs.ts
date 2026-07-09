@@ -66,6 +66,23 @@ export async function fetchPagePartial(
   return await obj.text();
 }
 
+// The page's raw Markdown source, published to R2 by the builder alongside the
+// rendered index.html. Keyed the same way as the partial, but `index.md`.
+export async function fetchPageMarkdown(
+  bucket: R2Bucket,
+  vendor: string,
+  product: string,
+  page: string,
+): Promise<string | null> {
+  const key =
+    page === "index"
+      ? `${vendor}/${product}/index.md`
+      : `${vendor}/${product}/${page}/index.md`;
+  const obj = await bucket.get(key);
+  if (!obj) return null;
+  return await obj.text();
+}
+
 // The product-root TOC, regardless of which nearer toc.json the sidebar uses.
 // Feeds the subnav's section tabs.
 export async function fetchRootToc(

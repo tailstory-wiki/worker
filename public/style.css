@@ -346,10 +346,15 @@ header {
   line-height: 1.2;
 }
 
-.doc-edit {
+.doc-edit,
+.doc-md {
   font-size: 0.875rem;
   white-space: nowrap;
   margin-left: 0.375rem;
+}
+
+.doc-md svg {
+  vertical-align: text-bottom;
 }
 
 .doc-updated {
